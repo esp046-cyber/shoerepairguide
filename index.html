@@ -1,0 +1,2436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoe Repair Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 20px 15px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 1.5em;
+            margin-bottom: 8px;
+            word-wrap: break-word;
+        }
+
+        header p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: #ecf0f1;
+            overflow-x: auto;
+            border-bottom: 3px solid #3498db;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .nav-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-tab {
+            flex: 0 0 auto;
+            padding: 12px 15px;
+            background: #ecf0f1;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: bold;
+            color: #2c3e50;
+            transition: all 0.3s;
+            white-space: nowrap;
+            min-width: 110px;
+        }
+
+        .nav-tab:hover {
+            background: #d5dbdb;
+        }
+
+        .nav-tab.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .content {
+            padding: 15px;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        .repair-section {
+            display: none;
+        }
+
+        .repair-section.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .repair-card {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .repair-card h3 {
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+            line-height: 1.3;
+        }
+
+        .difficulty {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            margin-right: 5px;
+        }
+
+        .difficulty.easy { background: #2ecc71; color: white; }
+        .difficulty.medium { background: #f39c12; color: white; }
+        .difficulty.hard { background: #e74c3c; color: white; }
+
+        .tools-needed {
+            background: #fff3cd;
+            border-left: 3px solid #ffc107;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 5px;
+        }
+
+        .tools-needed h4 {
+            color: #856404;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .tools-needed ul {
+            margin-left: 18px;
+            color: #856404;
+            font-size: 0.9em;
+        }
+
+        .tools-needed li {
+            margin-bottom: 4px;
+        }
+
+        .steps {
+            margin-top: 15px;
+        }
+
+        .step {
+            background: white;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border-left: 3px solid #3498db;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 26px;
+            font-weight: bold;
+            margin-right: 8px;
+            font-size: 0.9em;
+            flex-shrink: 0;
+        }
+
+        .tip-box {
+            background: #d1ecf1;
+            border-left: 3px solid #17a2b8;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        .tip-box strong {
+            color: #0c5460;
+        }
+
+        .warning-box {
+            background: #f8d7da;
+            border-left: 3px solid #dc3545;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        .warning-box strong {
+            color: #721c24;
+        }
+
+        .warning-box ul, .tip-box ul {
+            margin-left: 18px;
+            font-size: 0.95em;
+        }
+
+        .warning-box li, .tip-box li {
+            margin-bottom: 5px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            font-size: 0.95em;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 0.9em;
+        }
+
+        .time-estimate {
+            display: inline-block;
+            background: #9b59b6;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75em;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .material-box {
+            background: #e8f5e9;
+            border-left: 3px solid #4caf50;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        .material-box h4 {
+            color: #2e7d32;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .share-btn {
+            float: right;
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            margin-left: 10px;
+            transition: background 0.3s;
+        }
+
+        .share-btn:hover {
+            background: #2980b9;
+        }
+
+        .share-btn:active {
+            transform: scale(0.95);
+        }
+
+        .repair-card.collapsed .steps,
+        .repair-card.collapsed .tools-needed,
+        .repair-card.collapsed .tip-box,
+        .repair-card.collapsed .warning-box,
+        .repair-card.collapsed .material-box {
+            display: none;
+        }
+
+        .collapse-toggle {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8em;
+            margin-left: 10px;
+            float: right;
+        }
+
+        .collapse-toggle:hover {
+            background: #7f8c8d;
+        }
+
+        .video-link {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 8px 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .video-link:hover {
+            background: #c0392b;
+        }
+
+        .video-link::before {
+            content: "▶️ ";
+        }
+
+        /* Mobile-specific improvements */
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+
+            header h1 {
+                font-size: 1.3em;
+            }
+
+            header p {
+                font-size: 0.85em;
+            }
+
+            .nav-tab {
+                font-size: 0.8em;
+                padding: 10px 12px;
+                min-width: 100px;
+            }
+
+            .repair-card h3 {
+                font-size: 1.1em;
+            }
+
+            .content {
+                padding: 10px;
+            }
+
+            .step {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+
+            .difficulty, .time-estimate {
+                font-size: 0.75em;
+                padding: 3px 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.1em;
+            }
+
+            .nav-tab {
+                font-size: 0.75em;
+                padding: 8px 10px;
+                min-width: 90px;
+            }
+
+            .repair-card {
+                padding: 12px;
+            }
+
+            .repair-card h3 {
+                font-size: 1em;
+            }
+
+            .tools-needed h4, .material-box h4 {
+                font-size: 0.95em;
+            }
+
+            .step-number {
+                width: 24px;
+                height: 24px;
+                line-height: 24px;
+                font-size: 0.85em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔧 Professional Shoe Repair Guide</h1>
+            <p>Complete reference for shoe repair professionals</p>
+            <div id="tipOfDay" style="background: rgba(255,255,255,0.2); padding: 12px; margin-top: 15px; border-radius: 8px; font-size: 0.9em;">
+                <strong>💡 Tip of the Day:</strong> <span id="dailyTip"></span>
+            </div>
+        </header>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showSection('emergency')">🚨 Emergency</button>
+            <button class="nav-tab" onclick="showSection('sole')">Sole Repairs</button>
+            <button class="nav-tab" onclick="showSection('heel')">Heel Repairs</button>
+            <button class="nav-tab" onclick="showSection('upper')">Upper Repairs</button>
+            <button class="nav-tab" onclick="showSection('stitching')">Stitching</button>
+            <button class="nav-tab" onclick="showSection('cleaning')">Cleaning & Care</button>
+            <button class="nav-tab" onclick="showSection('troubleshooting')">Troubleshooting</button>
+            <button class="nav-tab" onclick="showSection('materials')">Materials Guide</button>
+            <button class="nav-tab" onclick="showSection('safety')">Safety Tips</button>
+        </div>
+
+        <div class="content">
+            <input type="text" class="search-box" placeholder="Search repairs..." onkeyup="searchRepairs(this.value)">
+            
+            <div style="text-align: center; margin-bottom: 20px;">
+                <button onclick="expandAll()" style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 0.9em; margin: 0 5px; font-weight: bold;">📖 Expand All</button>
+                <button onclick="collapseAll()" style="background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 0.9em; margin: 0 5px; font-weight: bold;">📕 Collapse All</button>
+            </div>
+
+            <!-- EMERGENCY REPAIRS -->
+            <div id="emergency" class="repair-section active">
+                <div style="background: #fff3cd; border: 2px solid #ffc107; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <h2 style="color: #856404; margin-bottom: 10px;">⚡ Emergency Quick Fixes</h2>
+                    <p style="color: #856404; font-size: 0.95em;">These are temporary solutions for urgent situations. Customer should return for proper repair.</p>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Sole Detaching - Immediate Fix</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 5 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Customer needs shoes NOW - wedding, interview, important meeting.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ What You Need:</h4>
+                        <ul>
+                            <li>Super glue or Shoe Goo</li>
+                            <li>Clamps or rubber bands</li>
+                            <li>Paper towels</li>
+                            <li>Quick-dry spray (optional)</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Clean quickly:</strong> Wipe separation area with dry paper towel. Remove visible dirt only.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Apply glue:</strong> Apply super glue or Shoe Goo directly into separation. Work fast.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Press firmly:</strong> Press sole and upper together firmly for 30-60 seconds.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Secure with bands:</strong> Wrap rubber bands around shoe to maintain pressure. Leave for 3-5 minutes minimum.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">5</span>
+                            <strong>Quick set:</strong> Use accelerator spray if available, or hairdryer on cool setting to speed bonding.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This will hold for today, but please bring them back tomorrow for proper repair. Don't get them wet if possible."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Broken Heel - Walking Emergency</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 3 minutes</span>
+                    <button onclick="toggleCard(this)" class="collapse-toggle">➖ Collapse</button>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Customer can't walk properly. Heel completely broken off or hanging.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ What You Need:</h4>
+                        <ul>
+                            <li>Strong tape (duct tape or gaffer tape)</li>
+                            <li>Scissors</li>
+                            <li>OR: Remove heel completely and flatten shoe</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Option A - Tape it:</strong> If heel is hanging, push it back into position and wrap multiple layers of strong tape around heel and shoe. Make it tight.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Option B - Remove it:</strong> If heel is too damaged, completely remove it and any sharp parts. Customer can walk flat but safely.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Match the pair:</strong> If one heel breaks, offer to remove the other heel too so customer can walk evenly.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This is just to get you through today. Come back tomorrow and we'll do a proper heel replacement."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Strap/Buckle Broken - Can't Wear Shoe</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 5 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Strap broken, buckle snapped - shoe won't stay on foot.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ What You Need:</h4>
+                        <ul>
+                            <li>Safety pins or paper clips</li>
+                            <li>Strong thread and needle</li>
+                            <li>OR: Velcro strips (self-adhesive)</li>
+                            <li>Pliers</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Safety pin method:</strong> Use large safety pin to reconnect strap to shoe body. Pin from inside if possible to hide it.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Quick stitch:</strong> If you have 2 minutes more, do 4-5 quick hand stitches through strap and shoe. Doesn't need to be pretty.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Velcro backup:</strong> Stick adhesive Velcro strip to strap and shoe for temporary closure.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Paper clip hack:</strong> Bend paper clip into S-shape to reconnect broken buckle parts temporarily.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This will hold the shoe on your foot today. Schedule a proper strap replacement this week."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Lace Broke - No Replacement Available</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 2 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Lace snapped, no replacement laces in stock or customer can't wait.
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Tie broken ends:</strong> If lace broke in middle, tie the two pieces together with small tight knot. Tuck knot inside shoe.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Skip lacing:</strong> If too short now, skip some middle eyelets and lace only top and bottom for temporary hold.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>String alternative:</strong> In extreme emergency, use strong string, paracord, or even ribbon as temporary lace.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>One shoe solution:</strong> If they have two shoes, steal the lace from the other shoe and lace both shoes partially.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This will work for today. Come back anytime and we'll put proper laces in for you."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Zipper Stuck/Broken - Can't Get Shoe On</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 3 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Zipper won't move or pull came off. Customer needs to wear boots NOW.
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Zipper stuck:</strong> Rub graphite pencil along zipper teeth or apply bar soap. Work zipper gently back and forth.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Pull broke off:</strong> Use paper clip or small safety pin through the slider hole as temporary pull.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Zipper won't close:</strong> Use pliers to gently squeeze slider sides closer together. Often fixes loose sliders.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Complete failure:</strong> Safety pin or stitch the zipper closed in functional position. Customer can slip shoe on/off without unzipping.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This should help you through today. If zipper needs replacement, bring them back when you have time."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Insole Coming Out - Foot Sliding Around</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 2 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Insole is loose, bunching up, or sliding around making shoe unwearable.
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Quick glue:</strong> Lift insole, apply dots of super glue or shoe glue at heel and toe areas only.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Press and hold:</strong> Press insole down firmly for 30 seconds. Let set for 2 minutes.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Double-sided tape:</strong> If no glue, use carpet tape or strong double-sided tape at heel and arch.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Remove it:</strong> If insole is damaged, just remove it completely. Better than having it bunch up.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This quick fix will hold for a few days. If you need a new insole, we can replace it properly later."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Huge Hole in Sole - Can't Walk in Rain</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 5 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Large hole in sole, customer's foot getting wet, needs immediate waterproofing.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ What You Need:</h4>
+                        <ul>
+                            <li>Shoe Goo or flexible waterproof sealant</li>
+                            <li>Duct tape or Gorilla tape</li>
+                            <li>Cardboard or thick leather scrap</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Patch from inside:</strong> Cut cardboard or leather piece slightly larger than hole. Place inside shoe over hole.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Fill with Shoe Goo:</strong> From outside, fill hole completely with Shoe Goo. Spread smooth.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Tape the outside:</strong> Cover repair with waterproof tape on bottom of sole. Press firmly.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Let set:</strong> Wait 5 minutes minimum before walking. Avoid puddles for first day.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This emergency patch will keep your foot dry today. Come back soon for a proper sole repair or replacement."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Torn Leather - Visible Ugly Rip</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 4 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Visible tear in leather upper, customer has important event and tear is very noticeable.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ What You Need:</h4>
+                        <ul>
+                            <li>Leather glue or super glue</li>
+                            <li>Matching shoe polish or marker</li>
+                            <li>Small piece of thin leather (for backing)</li>
+                            <li>Clamps or tape</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Glue from inside:</strong> If you can access inside of shoe, place small leather piece behind tear as backing patch.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Align edges:</strong> Apply tiny amount of glue to tear edges. Press together carefully to align as perfectly as possible.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Hold pressure:</strong> Use small clamps or tape over tear (on outside) to hold while setting. Wait 2-3 minutes.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Color match:</strong> Once dry, use matching polish or leather marker to blend the tear line. Buff gently.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This will hide the tear for your event today. Bring them back for proper leather repair with stitching."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Loud Squeaking - In Meeting/Church</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 1 minute</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Shoes squeaking embarrassingly loud. Customer desperate for immediate silence.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ What You Need:</h4>
+                        <ul>
+                            <li>Baby powder or cornstarch</li>
+                            <li>OR: Bar of soap</li>
+                            <li>OR: WD-40 (use sparingly)</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Powder method:</strong> Sprinkle baby powder generously under insole and around inside edges. Shake shoe around.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Soap on sole:</strong> If squeak is from sole, rub bar soap on bottom of shoe. This stops rubber squeaking on floors.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Quick spray:</strong> For leather-on-leather squeak, tiny spray of WD-40 between rubbing parts. Wipe excess immediately.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This will stop the squeaking for today. If it comes back, bring them in and we'll find the real source."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Shoes Too Tight - Customer in Pain</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 3 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> New shoes pinching badly. Customer needs to wear them NOW and is in pain.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ What You Need:</h4>
+                        <ul>
+                            <li>Shoe stretch spray OR rubbing alcohol in spray bottle</li>
+                            <li>Thick socks</li>
+                            <li>Hairdryer (if available)</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Spray inside:</strong> Spray stretch solution or rubbing alcohol inside tight areas of shoe. Focus on pressure points.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Wear with thick socks:</strong> Have customer put on thick socks and squeeze feet into shoes immediately.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Heat and walk:</strong> If you have hairdryer, apply warm air to tight spots while customer walks around for 2-3 minutes.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Manual stretch:</strong> While shoes are damp, manually flex and bend the tight areas to loosen them up.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This gives immediate relief. If still tight after today, bring them back for proper stretching on our machine."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Terrible Odor - Customer Embarrassed</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 2 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Shoes smell horrible. Customer has social event and is embarrassed.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ What You Need:</h4>
+                        <ul>
+                            <li>Baking soda</li>
+                            <li>Shoe deodorizer spray</li>
+                            <li>Dryer sheets or tea bags</li>
+                            <li>Rubbing alcohol</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Spray inside:</strong> Spray shoe deodorizer or diluted rubbing alcohol (1:1 with water) inside entire shoe interior.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Baking soda blast:</strong> Pour generous amount of baking soda inside. Shake around vigorously. Pour out excess.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Insert freshener:</strong> Stuff shoes with dryer sheets or tea bags for customer to keep in overnight.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Quick air:</strong> If time allows, place in front of fan for 5-10 minutes while customer waits.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This will help for tonight. For deep cleaning and lasting freshness, leave them with us for a full deodorizing treatment."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Slippery Soles - Customer Keeps Falling</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 3 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Brand new leather soles are dangerously slippery. Customer worried about falling.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ What You Need:</h4>
+                        <ul>
+                            <li>Coarse sandpaper (60-80 grit)</li>
+                            <li>OR: Utility knife</li>
+                            <li>OR: Sole scoring tool</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Sandpaper method:</strong> Rub coarse sandpaper vigorously across entire bottom of sole. Focus on heel and ball areas.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Scoring method:</strong> Use utility knife to make shallow crosshatch pattern across sole. Don't cut deep.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Test grip:</strong> Have customer test on smooth floor. Add more texture if needed.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Clean edges:</strong> Wipe away any loose material. Customer can wear immediately.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This gives instant grip for safety. After a few wears, the sole will naturally roughen up more. If you want permanent grip, we can add rubber taps."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Elastic Gore Ripped Out</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 4 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Elastic side panel torn loose. Shoe won't stay on foot without it.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ What You Need:</h4>
+                        <ul>
+                            <li>Large safety pins (3-4)</li>
+                            <li>Heavy-duty thread and needle</li>
+                            <li>OR: Fabric glue</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Safety pin secure:</strong> Use 2-3 large safety pins to pin elastic back into position from inside of shoe.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Quick hand stitch:</strong> If time permits, do fast whip stitches along edge with heavy thread. 6-8 stitches minimum.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Glue backup:</strong> Apply fabric glue along pinned edge for extra hold. Don't rely on glue alone.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Test stretch:</strong> Have customer try on and test if elastic still stretches and holds properly.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This emergency fix will get you through today. Schedule elastic panel replacement within the week for permanent repair."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Eyelet Ripped Out - Can't Lace Shoe</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 3 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Lace eyelet hole torn through. Can't lace properly and shoe won't tighten.
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Skip the hole:</strong> Simply skip the damaged eyelet and lace around it. Adjust lacing pattern to compensate.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Create new hole:</strong> Use awl to punch new hole slightly above or below damaged one. Reinforce with super glue around edges.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Emergency grommet:</strong> If you have spare eyelets, quickly install one in new position with hand tool.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Tie off solution:</strong> Lace up to damaged eyelet, tie knot, then continue above it with remaining lace.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This alternative lacing will work today. Come back and we'll install proper metal eyelets in the right positions."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 White Shoes Badly Stained (Event Tonight)</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 5 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> White or light-colored shoes heavily stained. Customer has event tonight and shoes look terrible.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ Tools Needed:</h4>
+                        <ul>
+                            <li>Magic eraser sponge</li>
+                            <li>White shoe cleaner or baking soda paste</li>
+                            <li>Old toothbrush</li>
+                            <li>White shoe polish or white-out pen</li>
+                            <li>Paper towels</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Magic eraser attack:</strong> Wet magic eraser and scrub stained areas vigorously. Works amazingly on rubber and leather.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Baking soda scrub:</strong> Make paste with baking soda and water. Scrub with toothbrush on stubborn stains. Wipe clean.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Cover remaining stains:</strong> Use white shoe polish or even white correction pen to cover any stains that won't come out.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Quick dry:</strong> Wipe with dry paper towels. Use hairdryer on cool if needed. Must be dry before customer wears.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This gets them event-ready tonight. For deep professional cleaning and protection coating, bring them back when you have more time."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Sole Separated at Toe Only</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 4 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Just the toe area is separating and flapping. Makes walking difficult and looks bad.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ What You Need:</h4>
+                        <ul>
+                            <li>Shoe Goo or super glue</li>
+                            <li>Small clamps or binder clips</li>
+                            <li>Toothpick or small brush</li>
+                            <li>Rubber bands</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Clean the gap:</strong> Use toothpick to remove dirt from separated area. Blow out debris.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Apply glue deeply:</strong> Use toothpick or small brush to work glue deep into separation. Get good coverage.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Press and clamp:</strong> Press toe area together firmly. Use small clamps or wrap rubber bands around toe to maintain pressure.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Set time:</strong> Must set for minimum 5 minutes. 10 minutes better. Remove clamps and customer can walk carefully.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "Avoid flexing the toe heavily today. This quick bond will hold for light walking. Bring back for full sole regluing when convenient."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Heel Tip Fell Off - Damaging Heel</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 2 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Small heel tip cap missing. Metal/plastic heel now clicking loudly and getting damaged.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ What You Need:</h4>
+                        <ul>
+                            <li>Replacement heel tip (if in stock)</li>
+                            <li>OR: Small rubber cap/furniture pad</li>
+                            <li>OR: Several layers duct tape</li>
+                            <li>Hammer (if installing proper tip)</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Quick tip install:</strong> If you have matching heel tip, tap it onto heel post with hammer. Takes 30 seconds.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Rubber cap backup:</strong> If no heel tip available, push small rubber cap or furniture pad onto heel post. Wrap with tape if loose.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Tape method:</strong> As last resort, wrap heel end with several tight layers of duct tape. Trim neat with scissors.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "If this is a temporary cap, it'll last a few days. Come back and we'll put on a proper matching heel tip."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Buckle Won't Close - Pin Missing</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 2 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Buckle pin broke off or missing. Strap won't stay fastened.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ What You Need:</h4>
+                        <ul>
+                            <li>Paper clip or safety pin</li>
+                            <li>Small wire or twist tie</li>
+                            <li>Pliers</li>
+                            <li>OR: Velcro strip</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Paper clip pin:</strong> Straighten paper clip. Thread through buckle frame where pin should be. Bend ends to secure.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Wire solution:</strong> Use small gauge wire. Thread through and twist tight with pliers. Trim sharp ends.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Velcro bypass:</strong> If buckle completely broken, add adhesive Velcro to strap and shoe body for temporary closure.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This makeshift pin will hold today. We can replace the entire buckle properly when you return."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Shoelace Aglet Broke Off</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 1 minute</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Plastic tip (aglet) fell off lace end. Can't thread lace through eyelets anymore.
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Tape method:</strong> Wrap small piece of clear tape tightly around frayed lace end. Twist to point.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Super glue fix:</strong> Apply drop of super glue to lace end. Roll between fingers to form point while wet. Let dry 30 seconds.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Nail polish:</strong> Dip frayed end in clear nail polish. Let dry. Creates stiff pointed end.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Cut and singe:</strong> For synthetic laces, trim frayed end and quickly pass through lighter flame to melt/seal.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This quick fix makes it laceable again. We have new laces in stock when you need them."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Shoe Sole Curling Up at Toe</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 5 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Toe of sole curling up making customer trip. Looks ridiculous.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ What You Need:</h4>
+                        <ul>
+                            <li>Shoe Goo or contact cement</li>
+                            <li>Weights or heavy books</li>
+                            <li>Clamps or strong tape</li>
+                            <li>Hairdryer</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Heat the curl:</strong> Use hairdryer to warm curled area for 30-60 seconds. Makes material flexible.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Apply adhesive:</strong> While warm, apply glue between sole and upper where separated.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Flatten and weight:</strong> Press toe flat against table. Place heavy weight on top. Leave for 5 minutes minimum.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Tape wrap:</strong> Wrap strong tape around toe area to keep pressure while customer takes them. Remove after 2 hours.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "Keep the tape on for 2 hours. Avoid bending toe today. Return for permanent resoling to fix this properly."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Decorative Button/Ornament Fell Off</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 2 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Decorative element (button, bow, metal ornament) fell off. Shoe looks incomplete.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ What You Need:</h4>
+                        <ul>
+                            <li>E6000 glue or super glue</li>
+                            <li>Clamp or tape</li>
+                            <li>Needle and thread (for sewn items)</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Clean surfaces:</strong> Wipe both ornament and shoe attachment point. Remove old glue if present.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Apply strong glue:</strong> Use E6000 for best hold, or super glue for speed. Apply small amount to both surfaces.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Press and hold:</strong> Position ornament correctly. Hold firmly for 60 seconds. Tape if needed.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Stitch backup:</strong> If item has holes for stitching, add few quick stitches through for security.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "Don't touch it for 24 hours for full strength. If it's important or valuable, bring back for proper riveting/stitching."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Boot Lining Torn and Bunching</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 3 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Interior lining torn loose and bunching up under foot. Very uncomfortable to wear.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ What You Need:</h4>
+                        <ul>
+                            <li>Fabric glue or contact cement</li>
+                            <li>Scissors</li>
+                            <li>Ruler or stick to smooth</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Trim excess:</strong> If lining is badly torn, trim away loose hanging pieces with scissors.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Glue down edges:</strong> Apply fabric glue along loose edges of lining. Work from inside of boot.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Smooth flat:</strong> Use ruler or smooth stick to press lining firmly against boot interior. Eliminate wrinkles.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Let set:</strong> Leave boot to dry for 5 minutes minimum before customer wears.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This stops the bunching for now. For long-term comfort, we should replace the entire lining when you have time."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Tongue Sliding to Side Constantly</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 2 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Shoe tongue keeps sliding sideways. Very annoying and uncomfortable.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ What You Need:</h4>
+                        <ul>
+                            <li>Needle and thread</li>
+                            <li>OR: Safety pin</li>
+                            <li>OR: Velcro dots</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Quick stitch:</strong> Make 2-3 stitches connecting tongue edge to shoe side panel. Both sides if needed.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Safety pin hold:</strong> Use small safety pin from inside to pin tongue to side panel temporarily.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Velcro dots:</strong> Stick adhesive Velcro dots on tongue and matching spots on side panels.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Lacing trick:</strong> Thread laces through tongue loops if present, or create loops with stitching.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This keeps tongue centered. If stitches bother you, return and we can do a cleaner permanent fix."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Shoe Making Foot Bleed - Emergency Padding</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 2 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Shoe rubbing badly causing blisters or bleeding. Customer in pain but must wear shoes.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ What You Need:</h4>
+                        <ul>
+                            <li>Moleskin or felt padding</li>
+                            <li>Bandaids or medical tape</li>
+                            <li>Scissors</li>
+                            <li>Leather conditioner or petroleum jelly</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Identify pressure point:</strong> Find exactly where shoe is rubbing. Usually heel counter or toe box seam.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Apply padding:</strong> Cut moleskin or felt to size. Stick adhesive side directly to problem area INSIDE shoe.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Soften the spot:</strong> Apply leather conditioner or petroleum jelly to rough area to soften it immediately.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Protect the foot:</strong> Also apply bandaid or medical tape to customer's foot at blister point for double protection.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This padding gives immediate relief. Bring shoes back and we can stretch problem areas or add permanent padding."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Metal Shank Poking Through Insole</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 3 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Sharp metal shank or nail poking up through insole. Painful and dangerous.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ What You Need:</h4>
+                        <ul>
+                            <li>Hammer and pliers</li>
+                            <li>Thick cardboard or leather piece</li>
+                            <li>Strong glue</li>
+                            <li>Extra insole or thick padding</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Remove insole:</strong> Take out current insole to access the protruding point.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Hammer it down:</strong> Use hammer to carefully flatten the sharp point. Pull nail out with pliers if possible.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Add protective layer:</strong> Cut thick cardboard or leather to cover entire insole area. Glue down firmly.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Install thick insole:</strong> Place thick cushioned insole over protective layer. This adds barrier between foot and metal.
+                        </div>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Warning:</strong> If shank is badly damaged or broken, shoe structure is compromised. May need complete rebuild.
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "This makes it safe to wear today. But bring them back soon - this indicates structural damage that needs proper repair."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="border-left: 5px solid #dc3545;">
+                    <h3>🚨 Wet Shoes - Need Them Dry NOW</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 10 minutes</span>
+                    
+                    <div class="warning-box">
+                        <strong>URGENT SITUATION:</strong> Shoes soaking wet from rain/spill. Customer needs to wear them within the hour.
+                    </div>
+
+                    <div class="tools-needed">
+                        <h4>🛠️ What You Need:</h4>
+                        <ul>
+                            <li>Newspaper or paper towels</li>
+                            <li>Fan or hairdryer</li>
+                            <li>Dry towels</li>
+                            <li>Spare socks</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Remove water:</strong> Shake out excess water. Wipe exterior thoroughly with dry towel.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Stuff with paper:</strong> Pack shoes tightly with crumpled newspaper or paper towels. This absorbs interior moisture fast.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Change paper:</strong> Replace paper every 2-3 minutes as it gets saturated. Do this 2-3 times.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Apply airflow:</strong> Place in front of strong fan or use hairdryer on COOL setting. Never use hot air on leather.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">5</span>
+                            <strong>Backup plan:</strong> If still damp, offer spare socks to customer to wear inside as barrier. Better than wet feet.
+                        </div>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Warning:</strong> Never use direct heat on leather shoes - causes cracking. Always use cool air only.
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tell Customer:</strong> "These are wearable but still slightly damp. Let them air dry fully tonight and condition the leather tomorrow to prevent damage."
+                    </div>
+                </div>
+
+                <div class="repair-card" style="background: #e8f5e9; border-left: 5px solid #4caf50;">
+                    <h3>📋 Emergency Repair Pricing Guide</h3>
+                    
+                    <div class="step">
+                        <strong>Quick Fix Pricing:</strong> Charge 50-75% of regular repair cost for emergency service. Customer understands it's temporary.
+                    </div>
+                    <div class="step">
+                        <strong>Same-Day Guarantee:</strong> "Come back within 7 days and we'll apply today's fee toward the full repair cost."
+                    </div>
+                    <div class="step">
+                        <strong>Be Honest:</strong> Always tell customer this is temporary. Set expectations: "This will last a day/week/month depending on use."
+                    </div>
+                    <div class="step">
+                        <strong>Follow-Up Card:</strong> Give customer a reminder card with your shop info and note: "Temporary repair - please return for permanent fix."
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOLE REPAIRS -->
+            <div id="sole" class="repair-section">
+                <div class="repair-card">
+                    <h3>Full Sole Replacement</h3>
+                    <span class="difficulty medium">Medium Difficulty</span>
+                    <span class="time-estimate">⏱️ 45-60 minutes</span>
+                    <button onclick="shareRepair('Full Sole Replacement', 'full-sole')" style="float: right; background: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 0.85em; margin-left: 10px;">📤 Share</button>
+                    <button onclick="toggleCard(this)" class="collapse-toggle">➖ Collapse</button>
+                    
+                    <a href="https://www.youtube.com/results?search_query=shoe+sole+replacement+tutorial" target="_blank" class="video-link">Watch Video Tutorial</a>
+                    
+                    <div class="tools-needed">
+                        <h4>🛠️ Tools Needed:</h4>
+                        <ul>
+                            <li>Shoe last</li>
+                            <li>Sole knife</li>
+                            <li>Skiving knife</li>
+                            <li>Contact cement</li>
+                            <li>Replacement sole material</li>
+                            <li>Hammer and nails (optional)</li>
+                            <li>Sole press or clamps</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Remove old sole:</strong> Use sole knife to carefully separate the old sole from the upper. Work slowly to avoid damaging the welt or upper material.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Clean the base:</strong> Remove all old adhesive and debris. Sand the surface lightly for better adhesion.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Prepare new sole:</strong> Trace and cut the new sole material to match the shoe's outline. Skive edges if needed.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Apply adhesive:</strong> Apply contact cement to both surfaces. Wait until tacky (5-10 minutes).
+                        </div>
+                        <div class="step">
+                            <span class="step-number">5</span>
+                            <strong>Attach and press:</strong> Carefully align and press the new sole. Use a sole press or heavy clamps for 24 hours.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">6</span>
+                            <strong>Trim and finish:</strong> Trim excess material and sand edges smooth. Apply edge dressing if desired.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Pro Tip:</strong> Always match the sole material to the shoe's intended use. Leather for dress shoes, rubber for casual/work boots.
+                    </div>
+                </div>
+
+                <div class="repair-card">
+                    <h3>Hole in Sole Patch</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 15-20 minutes</span>
+                    <button onclick="toggleCard(this)" class="collapse-toggle">➖ Collapse</button>
+                    
+                    <div class="tools-needed">
+                        <h4>🛠️ Tools Needed:</h4>
+                        <ul>
+                            <li>Patch material (rubber or leather)</li>
+                            <li>Contact cement or shoe glue</li>
+                            <li>Sandpaper</li>
+                            <li>Utility knife</li>
+                            <li>Clamps or weights</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Clean the area:</strong> Remove dirt and roughen the surface around the hole with sandpaper.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Cut patch:</strong> Cut patch material slightly larger than the hole.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Apply adhesive:</strong> Apply glue to both patch and sole. Let dry until tacky.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Press firmly:</strong> Apply patch and press firmly. Weight down for 4-6 hours.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HEEL REPAIRS -->
+            <div id="heel" class="repair-section">
+                <div class="repair-card">
+                    <h3>Heel Lift Replacement</h3>
+                    <span class="difficulty easy">Easy</span>
+                    <span class="time-estimate">⏱️ 10-15 minutes</span>
+                    <button onclick="shareRepair('Heel Lift Replacement', 'heel-lift')" style="float: right; background: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 0.85em; margin-left: 10px;">📤 Share</button>
+                    <button onclick="toggleCard(this)" class="collapse-toggle">➖ Collapse</button>
+                    
+                    <div class="tools-needed">
+                        <h4>🛠️ Tools Needed:</h4>
+                        <ul>
+                            <li>Replacement heel lifts</li>
+                            <li>Pry bar or heel puller</li>
+                            <li>Hammer</li>
+                            <li>Nails or contact cement</li>
+                            <li>Sandpaper</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Remove old lift:</strong> Use pry bar to carefully remove worn heel lift. Remove old nails.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Clean heel base:</strong> Sand smooth and remove debris.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Attach new lift:</strong> Position new lift and nail or glue in place. Ensure proper alignment.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Trim if needed:</strong> Trim excess material flush with heel edges.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Pro Tip:</strong> Keep a variety of heel lift sizes and materials in stock. Rubber is most common for everyday wear.
+                    </div>
+                </div>
+
+                <div class="repair-card">
+                    <h3>Complete Heel Replacement</h3>
+                    <span class="difficulty hard">Hard</span>
+                    <span class="time-estimate">⏱️ 30-45 minutes</span>
+                    <button onclick="toggleCard(this)" class="collapse-toggle">➖ Collapse</button>
+                    
+                    <a href="https://www.youtube.com/results?search_query=complete+heel+replacement+shoe+repair" target="_blank" class="video-link">Watch Video Tutorial</a>
+                    
+                    <div class="tools-needed">
+                        <h4>🛠️ Tools Needed:</h4>
+                        <ul>
+                            <li>Heel puller</li>
+                            <li>Replacement heel block</li>
+                            <li>Heel nails</li>
+                            <li>Hammer</li>
+                            <li>Rasp and sandpaper</li>
+                            <li>Drill (if needed)</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Remove old heel:</strong> Carefully pry off entire heel using heel puller. Watch for hidden nails or screws.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Assess heel seat:</strong> Check for damage to heel seat. Repair if necessary before proceeding.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Select matching heel:</strong> Choose heel that matches original height and style as closely as possible.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Shape new heel:</strong> Use rasp to shape heel to fit perfectly. This is critical for proper fit.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">5</span>
+                            <strong>Attach heel:</strong> Nail or screw heel in place. Use appropriate length fasteners to avoid penetration through insole.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">6</span>
+                            <strong>Finish heel:</strong> Sand smooth, apply edge dressing, and attach heel lift.
+                        </div>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Warning:</strong> Always check for metal shanks before nailing. Hitting a shank can damage tools and the shoe.
+                    </div>
+                </div>
+            </div>
+
+            <!-- UPPER REPAIRS -->
+            <div id="upper" class="repair-section">
+                <div class="repair-card">
+                    <h3>Leather Tear Repair</h3>
+                    <span class="difficulty medium">Medium Difficulty</span>
+                    <button onclick="shareRepair('Leather Tear Repair', 'leather-tear')" style="float: right; background: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 0.85em; margin-left: 10px;">📤 Share</button>
+                    <button onclick="toggleCard(this)" class="collapse-toggle">➖ Collapse</button>
+                    
+                    <a href="https://www.youtube.com/results?search_query=leather+tear+repair+shoes" target="_blank" class="video-link">Watch Video Tutorial</a>
+                    
+                    <div class="tools-needed">
+                        <h4>🛠️ Tools Needed:</h4>
+                        <ul>
+                            <li>Leather glue or contact cement</li>
+                            <li>Patch material (thin leather)</li>
+                            <li>Needle and thread (for stitching)</li>
+                            <li>Leather dye or polish (matching color)</li>
+                            <li>Scissors</li>
+                            <li>Clamps or weights</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Clean the area:</strong> Remove dirt and oil from torn area and surrounding leather.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Align the tear:</strong> Carefully align torn edges as closely as possible.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Apply patch from inside:</strong> If accessible, glue a thin leather patch on the inside surface.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Glue tear edges:</strong> Apply thin layer of glue to tear edges and press together. Clamp if possible.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">5</span>
+                            <strong>Stitch if needed:</strong> For larger tears, add stitching for extra strength once glue has dried.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">6</span>
+                            <strong>Color match:</strong> Apply matching dye or polish to blend repair area with surrounding leather.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Pro Tip:</strong> For visible repairs, skilled color matching is key. Keep a range of leather dyes and practice blending techniques.
+                    </div>
+                </div>
+
+                <div class="repair-card">
+                    <h3>Zipper Replacement</h3>
+                    <span class="difficulty medium">Medium Difficulty</span>
+                    <button onclick="shareRepair('Zipper Replacement', 'zipper-replace')" style="float: right; background: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 0.85em; margin-left: 10px;">📤 Share</button>
+                    <button onclick="toggleCard(this)" class="collapse-toggle">➖ Collapse</button>
+                    
+                    <a href="https://www.youtube.com/results?search_query=shoe+boot+zipper+replacement+tutorial" target="_blank" class="video-link">Watch Video Tutorial</a>
+                    
+                    <div class="tools-needed">
+                        <h4>🛠️ Tools Needed:</h4>
+                        <ul>
+                            <li>Replacement zipper (correct length)</li>
+                            <li>Seam ripper</li>
+                            <li>Sewing machine or heavy needle and thread</li>
+                            <li>Scissors</li>
+                            <li>Pins or clips</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Remove old zipper:</strong> Use seam ripper to carefully remove stitching holding old zipper. Save any leather reinforcement pieces.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Measure and prepare:</strong> Ensure replacement zipper is correct length. Trim if needed but leave extra at top.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Pin in place:</strong> Carefully pin new zipper in position, ensuring it's straight and even on both sides.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Stitch zipper:</strong> Sew zipper in place using heavy-duty thread. Backstitch at both ends for strength.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">5</span>
+                            <strong>Test operation:</strong> Zip and unzip several times to ensure smooth operation.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="repair-card">
+                    <h3>Elastic Panel Replacement (Side Gore)</h3>
+                    <span class="difficulty hard">Hard</span>
+                    <button onclick="toggleCard(this)" class="collapse-toggle">➖ Collapse</button>
+                    
+                    <a href="https://www.youtube.com/results?search_query=elastic+gore+panel+shoe+repair" target="_blank" class="video-link">Watch Video Tutorial</a>
+                    
+                    <div class="tools-needed">
+                        <h4>🛠️ Tools Needed:</h4>
+                        <ul>
+                            <li>Replacement elastic material</li>
+                            <li>Seam ripper</li>
+                            <li>Sewing machine</li>
+                            <li>Heavy-duty thread</li>
+                            <li>Scissors</li>
+                            <li>Pattern paper</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Remove old elastic:</strong> Carefully unpick all stitching around elastic panel. Keep as pattern.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Create pattern:</strong> Use old elastic as template or measure opening carefully.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Cut new elastic:</strong> Cut replacement elastic slightly larger than pattern to allow for seam allowance.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Pin and fit:</strong> Pin elastic in place and test fit. Adjust if needed.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">5</span>
+                            <strong>Sew in place:</strong> Use zigzag or stretch stitch on sewing machine. Ensure elastic maintains proper stretch.
+                        </div>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Warning:</strong> Matching the correct elastic thickness and stretch is crucial. Too tight and the shoe won't fit; too loose and it won't provide support.
+                    </div>
+                </div>
+            </div>
+
+            <!-- STITCHING -->
+            <div id="stitching" class="repair-section">
+                <div class="repair-card">
+                    <h3>Hand Stitching Basics</h3>
+                    <span class="difficulty medium">Medium Difficulty</span>
+                    <button onclick="toggleCard(this)" class="collapse-toggle">➖ Collapse</button>
+                    
+                    <a href="https://www.youtube.com/results?search_query=hand+stitching+leather+shoes+tutorial" target="_blank" class="video-link">Watch Video Tutorial</a>
+                    
+                    <div class="tools-needed">
+                        <h4>🛠️ Tools Needed:</h4>
+                        <ul>
+                            <li>Curved or straight needles</li>
+                            <li>Waxed thread (appropriate weight)</li>
+                            <li>Awl</li>
+                            <li>Pliers (for pulling needles)</li>
+                            <li>Thimble</li>
+                            <li>Beeswax (for thread)</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Prepare thread:</strong> Cut thread 3-4 times the length of seam. Wax thoroughly for strength and easier handling.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Pre-punch holes:</strong> Use awl to create holes along stitch line. This protects the leather and ensures straight stitching.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Lock stitch technique:</strong> Pass needle through hole, then back through same hole to lock. Continue with regular stitching.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Maintain tension:</strong> Pull each stitch snug but not too tight. Consistent tension creates professional appearance.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">5</span>
+                            <strong>Finish securely:</strong> Backstitch 3-4 times at the end. Knot and trim thread close to surface.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Pro Tip:</strong> For leather that's difficult to penetrate, heat your awl slightly with a lighter. This helps pierce tough materials more easily.
+                    </div>
+                </div>
+
+                <div class="repair-card">
+                    <h3>Welt Stitching Repair</h3>
+                    <span class="difficulty hard">Hard</span>
+                    <button onclick="toggleCard(this)" class="collapse-toggle">➖ Collapse</button>
+                    
+                    <a href="https://www.youtube.com/results?search_query=goodyear+welt+stitching+repair+tutorial" target="_blank" class="video-link">Watch Video Tutorial</a>
+                    
+                    <div class="tools-needed">
+                        <h4>🛠️ Tools Needed:</h4>
+                        <ul>
+                            <li>Curved needle</li>
+                            <li>Heavy waxed thread</li>
+                            <li>Awl</li>
+                            <li>Lasting pliers</li>
+                            <li>Shoe last (for support)</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Access the welt:</strong> May need to remove sole or heel to access damaged welt stitching.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Remove damaged section:</strong> Cut away damaged thread carefully. Note original stitch pattern.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Mount on last:</strong> Place shoe on appropriate last for support during stitching.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Stitch welt:</strong> Using curved needle, replicate original stitch pattern. This typically involves stitching through upper, insole, and welt.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">5</span>
+                            <strong>Reinforce corners:</strong> Add extra stitches at heel and toe areas where stress is greatest.
+                        </div>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Warning:</strong> Welt stitching is structural. Poor repair can lead to complete sole separation. If unsure, refer to an experienced cobbler.
+                    </div>
+                </div>
+
+                <div class="repair-card">
+                    <h3>Odor Removal</h3>
+                    <span class="difficulty easy">Easy</span>
+                    
+                    <div class="tools-needed">
+                        <h4>🛠️ Tools Needed:</h4>
+                        <ul>
+                            <li>Baking soda</li>
+                            <li>Cedar shoe trees or newspaper</li>
+                            <li>Essential oils (optional)</li>
+                            <li>Activated charcoal bags</li>
+                            <li>Spray bottle</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Remove insoles:</strong> Take out insoles and treat separately if possible.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Apply baking soda:</strong> Sprinkle generous amount of baking soda inside shoes. Let sit overnight.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Shake out and air:</strong> Remove baking soda and air out shoes in well-ventilated area.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Use shoe trees:</strong> Insert cedar shoe trees to absorb moisture and maintain shape.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">5</span>
+                            <strong>Prevent future odors:</strong> Place activated charcoal bags in shoes when not in use.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Pro Tip:</strong> For severe odors, spray inside with diluted rubbing alcohol (1:1 with water) before applying baking soda.
+                    </div>
+                </div>
+            </div>
+
+            <!-- TROUBLESHOOTING -->
+            <div id="troubleshooting" class="repair-section">
+                <div class="repair-card">
+                    <h3>Squeaky Shoes - Common Causes & Fixes</h3>
+                    <span class="difficulty easy">Easy</span>
+                    
+                    <p><strong>Problem:</strong> Shoes make squeaking noise when walking.</p>
+                    
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Identify the source:</strong> Walk slowly and listen carefully. Squeak usually comes from: sole separation, insole rubbing, or leather parts rubbing together.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Insole squeak fix:</strong> Remove insole, sprinkle baby powder or cornstarch underneath, and replace. This reduces friction.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Sole separation squeak:</strong> Apply super glue or shoe adhesive to the separated area. Clamp and let dry 24 hours.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Leather rubbing squeak:</strong> Apply leather conditioner to areas where leather parts meet. This softens and lubricates.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">5</span>
+                            <strong>New shoe squeak:</strong> Often goes away with wear. If not, apply saddle soap to the sole to soften it.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="repair-card">
+                    <h3>Slipping Heels</h3>
+                    <span class="difficulty easy">Easy</span>
+                    
+                    <p><strong>Problem:</strong> Heel slips out of shoe when walking.</p>
+                    
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Tongue pad installation:</strong> Add cushioned tongue pads to push foot back into heel cup.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Heel grips:</strong> Stick adhesive heel grips inside back of shoe. These prevent slipping and add comfort.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Insole addition:</strong> Add thin insole to reduce interior volume and improve fit.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Lacing adjustment:</strong> For lace-up shoes, try different lacing patterns to lock heel in place.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Pro Tip:</strong> Combine heel grips with tongue pads for maximum effectiveness on loose-fitting shoes.
+                    </div>
+                </div>
+
+                <div class="repair-card">
+                    <h3>Stiff New Leather</h3>
+                    <span class="difficulty easy">Easy</span>
+                    
+                    <p><strong>Problem:</strong> New leather shoes are uncomfortable and stiff.</p>
+                    
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Leather conditioner:</strong> Apply generous amount of leather conditioner to stiff areas. Let absorb overnight.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Wear with thick socks:</strong> Wear shoes around the house with thick socks to gradually stretch and soften.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Flexing exercise:</strong> Manually flex the shoe back and forth repeatedly to break in the sole and upper.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Spot treatment:</strong> For particularly stiff spots, apply leather softener or mink oil directly to problem areas.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="repair-card">
+                    <h3>Scuff Marks on Leather</h3>
+                    <span class="difficulty easy">Easy</span>
+                    
+                    <p><strong>Problem:</strong> Surface scuff marks on smooth leather.</p>
+                    
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Light scuffs:</strong> Rub gently with a clean, damp cloth. Many light scuffs will disappear.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Pencil eraser method:</strong> Use clean white eraser to gently rub scuff marks. Works surprisingly well.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Petroleum jelly:</strong> Apply tiny amount to scuff, rub in with finger, then buff with soft cloth.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Polish touch-up:</strong> Apply matching color shoe polish to cover remaining marks. Buff to shine.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MATERIALS GUIDE -->
+            <div id="materials" class="repair-section">
+                <div class="repair-card">
+                    <h3>Leather Types Identification</h3>
+                    <button onclick="toggleCard(this)" class="collapse-toggle">➖ Collapse</button>
+                    
+                    <div class="step">
+                        <strong>Full-Grain Leather:</strong> Highest quality. Shows natural grain and markings. Ages beautifully. Used in premium dress shoes and boots. Breathes well and very durable.
+                    </div>
+                    <div class="step">
+                        <strong>Top-Grain Leather:</strong> Second-highest quality. Surface lightly sanded. More uniform appearance. Common in quality shoes. Good durability and appearance.
+                    </div>
+                    <div class="step">
+                        <strong>Suede:</strong> Underside of leather with napped finish. Soft and flexible. Requires special care. Cannot use regular leather products on it.
+                    </div>
+                    <div class="step">
+                        <strong>Nubuck:</strong> Top-grain leather buffed to create nap. More durable than suede. Similar care requirements. Soft velvety texture.
+                    </div>
+                    <div class="step">
+                        <strong>Patent Leather:</strong> Leather with high-gloss coating. Very shiny finish. Clean with damp cloth only. Don't use regular leather cleaners.
+                    </div>
+                    <div class="step">
+                        <strong>Bonded Leather:</strong> Leather scraps bonded together. Lower quality. Less durable. Common in budget shoes. Limited repair options.
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Pro Tip:</strong> Water drop test - quality leather absorbs water slowly and darkens. Bonded leather or synthetics won't absorb.
+                    </div>
+                </div>
+
+                <div class="repair-card">
+                    <h3>Sole Material Guide</h3>
+                    <button onclick="toggleCard(this)" class="collapse-toggle">➖ Collapse</button>
+                    
+                    <div class="step">
+                        <strong>Leather Sole:</strong> Traditional dress shoe sole. Breathable and comfortable. Wears faster than rubber. Can be resoled multiple times. Slippery when wet.
+                    </div>
+                    <div class="step">
+                        <strong>Rubber Sole:</strong> Most common. Very durable and weather-resistant. Good traction. Various hardness levels available. Excellent for work boots and casual shoes.
+                    </div>
+                    <div class="step">
+                        <strong>Crepe Rubber:</strong> Natural rubber with rough texture. Very comfortable. Good shock absorption. Used in casual shoes. Less durable than synthetic rubber.
+                    </div>
+                    <div class="step">
+                        <strong>Polyurethane (PU):</strong> Lightweight synthetic. Good cushioning. Not resoleable once worn. Common in athletic and casual shoes. Breaks down over time even without wear.
+                    </div>
+                    <div class="step">
+                        <strong>EVA (Ethylene Vinyl Acetate):</strong> Very lightweight foam. Excellent cushioning. Used in athletic shoes. Not repairable when damaged.
+                    </div>
+                    <div class="step">
+                        <strong>Vibram:</strong> Brand name for high-quality rubber soles. Excellent durability and traction. Premium replacement option. Various tread patterns available.
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Pro Tip:</strong> Match sole material to use case: leather for dress, rubber for everyday, specialized rubber for work boots.
+                    </div>
+                </div>
+
+                <div class="repair-card">
+                    <h3>Adhesive Compatibility Chart</h3>
+                    <button onclick="toggleCard(this)" class="collapse-toggle">➖ Collapse</button>
+                    
+                    <div class="step">
+                        <strong>Contact Cement:</strong> Best for: sole attachment, heel attachment. Works on: leather to rubber, rubber to rubber. Application: apply to both surfaces, wait until tacky, press together firmly.
+                    </div>
+                    <div class="step">
+                        <strong>Shoe Goo:</strong> Best for: sole repairs, hole patches, rubber reinforcement. Works on: rubber, leather, canvas. Application: apply directly, smooth, let cure 24 hours.
+                    </div>
+                    <div class="step">
+                        <strong>Barge Cement:</strong> Best for: professional sole work, heavy repairs. Works on: most materials. Application: similar to contact cement but stronger bond. Industry standard.
+                    </div>
+                    <div class="step">
+                        <strong>E6000:</strong> Best for: hardware attachment, small repairs. Works on: metal, plastic, leather, rubber. Application: apply, clamp, cure 24-72 hours for full strength.
+                    </div>
+                    <div class="step">
+                        <strong>Leather Glue:</strong> Best for: leather tears, patch work. Works on: leather to leather only. Application: apply thin layer, press, clamp if possible.
+                    </div>
+                    <div class="step">
+                        <strong>Super Glue (Cyanoacrylate):</strong> Best for: emergency repairs, small parts. Works on: most non-porous materials. Application: very small amount, instant bond, not flexible.
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Warning:</strong> Never mix different adhesive types. Always allow one to fully cure before applying another.
+                    </div>
+                </div>
+
+                <div class="repair-card">
+                    <h3>Thread Selection Guide</h3>
+                    <button onclick="toggleCard(this)" class="collapse-toggle">➖ Collapse</button>
+                    
+                    <div class="step">
+                        <strong>Waxed Polyester (Size 138):</strong> General purpose hand stitching. Good for most upper repairs. Strong and weather resistant.
+                    </div>
+                    <div class="step">
+                        <strong>Waxed Linen:</strong> Traditional choice for quality work. Excellent for visible stitching. Ages well. Used in high-end repairs.
+                    </div>
+                    <div class="step">
+                        <strong>Nylon (Size 69):</strong> Machine stitching uppers. Good for canvas and fabric. Strong and stretchy. Not ideal for leather hand stitching.
+                    </div>
+                    <div class="step">
+                        <strong>Heavy Waxed (Size 207+):</strong> Welt stitching and sole work. Extra strength for structural repairs. Requires larger needles.
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Pro Tip:</strong> Always wax your thread even if it's pre-waxed. Extra wax makes stitching easier and creates stronger, more water-resistant seams.
+                    </div>
+                </div>
+            </div>
+
+            <!-- SAFETY TIPS -->
+            <div id="safety" class="repair-section">
+                <div class="repair-card">
+                    <h3>Workshop Safety Essentials</h3>
+                    <button onclick="toggleCard(this)" class="collapse-toggle">➖ Collapse</button>
+                    
+                    <div class="warning-box">
+                        <strong>⚠️ Chemical Safety:</strong>
+                        <ul style="margin-top: 10px; margin-left: 20px;">
+                            <li>Always work in well-ventilated area when using adhesives</li>
+                            <li>Wear nitrile gloves when handling chemicals</li>
+                            <li>Keep adhesives away from heat sources and open flames</li>
+                            <li>Store chemicals in original containers with labels</li>
+                            <li>Have eyewash station or running water available</li>
+                            <li>Never eat or drink in work area</li>
+                        </ul>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Tool Safety:</strong>
+                        <ul style="margin-top: 10px; margin-left: 20px;">
+                            <li>Keep all cutting tools sharp - dull tools require more force and are more dangerous</li>
+                            <li>Always cut away from your body</li>
+                            <li>Use cutting mat or appropriate work surface</li>
+                            <li>Wear safety glasses when using rotary tools or sanders</li>
+                            <li>Keep fingers clear of needle path when stitching</li>
+                            <li>Unplug machines when changing parts or cleaning</li>
+                        </ul>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 First Aid Basics:</strong>
+                        <ul style="margin-top: 10px; margin-left: 20px;">
+                            <li>Keep first aid kit stocked: bandages, antiseptic, burn cream</li>
+                            <li>For cuts: apply pressure, clean, bandage. Seek medical care for deep cuts</li>
+                            <li>For chemical exposure: flush with water for 15 minutes minimum</li>
+                            <li>For glue on skin: don't pull apart - soak in warm soapy water</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="repair-card">
+                    <h3>Ventilation Requirements</h3>
+                    <button onclick="toggleCard(this)" class="collapse-toggle">➖ Collapse</button>
+                    
+                    <div class="step">
+                        <strong>Contact Cement & Strong Adhesives:</strong> Requires excellent ventilation. Open windows and use fans. Consider respirator for extended use. Fumes can cause headaches and dizziness.
+                    </div>
+                    <div class="step">
+                        <strong>Dyes and Finishes:</strong> Moderate ventilation needed. Work near open window. Fumes can irritate eyes and respiratory system.
+                    </div>
+                    <div class="step">
+                        <strong>Leather Cleaners:</strong> Generally safe but ventilate area. Some cleaners have strong odors.
+                    </div>
+                    <div class="step">
+                        <strong>Signs of Poor Ventilation:</strong> Headache, dizziness, nausea, eye irritation. Stop work immediately and get fresh air if experiencing these symptoms.
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Warning:</strong> Some people are more sensitive to fumes. If you feel unwell, stop working and ventilate area thoroughly.
+                    </div>
+                </div>
+
+                <div class="repair-card">
+                    <h3>Proper Lifting and Ergonomics</h3>
+                    <button onclick="toggleCard(this)" class="collapse-toggle">➖ Collapse</button>
+                    
+                    <div class="step">
+                        <strong>Workbench Height:</strong> Should be at comfortable standing height (typically waist level). Prevents back strain during detailed work.
+                    </div>
+                    <div class="step">
+                        <strong>Seating:</strong> Use adjustable stool or chair for sitting work. Maintain good posture. Take breaks every hour.
+                    </div>
+                    <div class="step">
+                        <strong>Hand Position:</strong> Keep wrists neutral when stitching or cutting. Avoid repetitive motions without breaks.
+                    </div>
+                    <div class="step">
+                        <strong>Heavy Items:</strong> Lift with legs, not back. Store heavy items at waist level when possible.
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Pro Tip:</strong> Stretching hands and wrists regularly prevents repetitive strain injuries common in repair work.
+                    </div>
+                </div>
+
+                <div class="repair-card">
+                    <h3>Fire Safety</h3>
+                    <button onclick="toggleCard(this)" class="collapse-toggle">➖ Collapse</button>
+                    
+                    <div class="step">
+                        <strong>Fire Extinguisher:</strong> Keep ABC-rated fire extinguisher accessible. Know how to use it. Check pressure gauge monthly.
+                    </div>
+                    <div class="step">
+                        <strong>Flammable Materials:</strong> Store adhesives in metal cabinet away from heat sources. Keep only needed amounts in work area.
+                    </div>
+                    <div class="step">
+                        <strong>Electrical Safety:</strong> Don't overload outlets. Check cords for damage. Keep electrical equipment away from water.
+                    </div>
+                    <div class="step">
+                        <strong>Waste Disposal:</strong> Dispose of solvent-soaked rags in metal container with lid. Empty regularly.
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Warning:</strong> Solvent-soaked rags can spontaneously combust. Never leave in regular trash or piled in workshop.
+                    </div>
+                </div>
+            </div>
+
+            <!-- CLEANING & CARE -->
+            <div id="cleaning" class="repair-section">
+                <div class="repair-card">
+                    <h3>Leather Cleaning and Conditioning</h3>
+                    <span class="difficulty easy">Easy</span>
+                    
+                    <div class="tools-needed">
+                        <h4>🛠️ Tools Needed:</h4>
+                        <ul>
+                            <li>Soft brushes</li>
+                            <li>Leather cleaner</li>
+                            <li>Leather conditioner</li>
+                            <li>Soft cloths</li>
+                            <li>Saddle soap (for deep cleaning)</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Remove loose dirt:</strong> Brush off surface dirt with soft brush. Remove laces and clean separately.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Clean leather:</strong> Apply leather cleaner with damp cloth. Work in small sections using circular motions.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Dry completely:</strong> Allow shoes to air dry naturally. Never use direct heat sources.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Condition:</strong> Apply leather conditioner evenly. Let absorb for 20-30 minutes.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">5</span>
+                            <strong>Buff and polish:</strong> Buff with clean cloth. Apply polish if desired for shine.
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Pro Tip:</strong> Test any cleaner or conditioner on a hidden area first to ensure color compatibility.
+                    </div>
+                </div>
+
+                <div class="repair-card">
+                    <h3>Suede and Nubuck Care</h3>
+                    <span class="difficulty easy">Easy</span>
+                    
+                    <div class="tools-needed">
+                        <h4>🛠️ Tools Needed:</h4>
+                        <ul>
+                            <li>Suede brush</li>
+                            <li>Suede eraser</li>
+                            <li>White vinegar (for stains)</li>
+                            <li>Suede protector spray</li>
+                            <li>Soft cloth</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Brush gently:</strong> Use suede brush in one direction to lift nap and remove surface dirt.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Treat stains:</strong> Use suede eraser for scuffs. For water stains, dampen entire area evenly then let dry.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <strong>Remove tough stains:</strong> Lightly dampen cloth with white vinegar and blot stained area. Let dry completely.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <strong>Restore nap:</strong> Once dry, brush vigorously to restore texture.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">5</span>
+                            <strong>Protect:</strong> Apply suede protector spray to guard against future stains.
+                        </div>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Warning:</strong> Never use regular leather cleaners or conditioners on suede. They will damage the napped surface.
+                    </div>
+                </div>
+
+                <div class="repair-card">
+                    <h3>Salt Stain Removal</h3>
+                    <span class="difficulty easy">Easy</span>
+                    
+                    <div class="tools-needed">
+                        <h4>🛠️ Tools Needed:</h4>
+                        <ul>
+                            <li>White vinegar</li>
+                            <li>Water</li>
+                            <li>Soft cloth or sponge</li>
+                            <li>Leather conditioner</li>
+                        </ul>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <strong>Mix solution:</strong> Mix equal parts white vinegar and water in small bowl.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <strong>Apply to stains:</strong> Dampen cloth with solution and gently wipe salt-stained areas.
+                        </div>
+                        <div class="step">
+                            <span class="step-number">
